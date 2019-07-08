@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.frxs.order">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+
+    <!-- 扫一扫 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <!--判断后台的方式-->
+    <uses-permission android:name="android.permission.GET_TASKS" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+
+    <application
+        android:name="com.frxs.order.application.FrxsApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launchers"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        >
+        <activity
+            android:name="com.frxs.order.SplashActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name="com.frxs.order.PromotionListActivity"
+            android:screenOrientation="portrait"></activity>
+
+        <activity android:name="com.frxs.order.PromotionDetailActivity"
+            android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name="com.frxs.order.LoginActivity"
+            android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name="com.frxs.order.HomeActivity"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name="UpdatePswActivity"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <!--订单详情-->
+        <activity
+            android:name="OrderDetailActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <!--预售-->
+        <activity
+            android:name=".PreSaleActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <!-- 门店账单（未开启） -->
+        <activity
+            android:name=".AccountBillActivity"
+            android:screenOrientation="portrait"/>
+
+        <!-- 门店账单（开启） -->
+        <activity
+            android:name=".ShopBillActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".PointDetailActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name=".ProductDetailActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <!--扫一扫-->
+        <activity
+            android:name="CaptureActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <!--下单成功-->
+        <activity
+            android:name="OrderSuccessActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name=".MessageListActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name=".MessageDetailActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name=".ProductSearchActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name=".ProductListActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name=".ProductSkuActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/CustomDialogTheme">
+        </activity>
+
+        <!--结算-->
+        <activity
+            android:name="OrderSubmitActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <!--备注-->
+        <activity
+            android:name=".OrderRemarkActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <!--购物车-->
+        <activity
+            android:name=".StoreCartActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <!--订单详情-->
+        <activity android:name=".ModifyOrderActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <!--购物车-->
+        <activity
+            android:name=".CommodityListActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <!--购物车-->
+        <activity
+            android:name=".AccountBillDetailsActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <!--图片展示-->
+        <activity android:name=".PreSaleGoodsPhotoViewActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <!--商圈门店-->
+        <activity android:name=".MyBizCircleShopsActivity"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <!-- 微信支付成功页面 -->
+        <activity android:name=".PaySuccessActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden|stateAlwaysHidden"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <!-- 微信回调 -->
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop" />
+
+        <!-- 门店信息页面 -->
+        <activity android:name=".UserInfoActivity"
+            android:screenOrientation="portrait"/>
+
+        <!-- 积分规则页面 -->
+        <activity android:name=".CommonWebViewActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".CommMyWebViewActivity"
+            android:screenOrientation="portrait"/>
+
+        <!-- 建行支付成功回调页面 -->
+        <activity android:name=".UPPayResuleActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden|stateAlwaysHidden"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="comccbpay105561000000248frxspay"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <!-- 退货管理页面 -->
+        <activity android:name=".SalesBackActivity"
+            android:screenOrientation="portrait"/>
+
+
+        <!-- 新增退货申请页面 -->
+        <activity android:name=".NewBackOrderActivity"
+            android:screenOrientation="portrait"/>
+
+        <!-- 退货申请单详情页面 -->
+        <activity android:name=".BackApplyInfoAcitvity"
+            android:screenOrientation="portrait"/>
+
+        <!-- 退货商品橱窗展示页面 -->
+        <activity android:name=".SaleBackWindowActivity"
+            android:screenOrientation="portrait"/>
+
+        <!-- 新增退货申请单商品详情页面 -->
+        <activity android:name=".BackGoodsInfoActivity"
+            android:screenOrientation="portrait"/>
+
+        <!-- 退货单详情页面 -->
+        <activity android:name=".BackOrderInfoActivity"
+            android:screenOrientation="portrait"/>
+
+        <!-- 提交新增退货申请单 -->
+        <activity android:name=".SubmitBackOrderActivity"
+            android:screenOrientation="portrait"/>
+
+        <!-- 搜索退货橱窗商品 -->
+        <activity android:name=".BackSearchActivity"
+            android:screenOrientation="portrait"/>
+
+        <!-- 搜索退货橱窗商品 -->
+        <activity android:name=".BackScanListActivity"
+            android:screenOrientation="portrait"/>
+
+        <!-- 仓库配送信息页面 -->
+        <activity android:name=".DeliveryInfoActivity"
+            android:screenOrientation="portrait"/>
+
+        <!-- 找回密码 -->
+        <activity android:name=".FindPswActivity"
+            android:screenOrientation="portrait"/>
+
+        <!-- Umeng Update requist configuration start-->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="573db91367e58e785f000ecc" >
+        </meta-data>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="Umeng" >
+        </meta-data>
+        <!-- Umeng Update requist configuration end-->
+
+        <!-- 兼容6.0、7.0安装应用文件的uri地址不同的问题 -->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
+    </application>
+
+</manifest>

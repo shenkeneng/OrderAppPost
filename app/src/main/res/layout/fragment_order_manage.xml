@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        style="@style/ActionBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/frxs_red">
+
+        <include layout="@layout/view_toolbar" />
+
+    </android.support.v7.widget.Toolbar>
+
+    <com.ewu.core.widget.EmptyView
+        android:id="@+id/emptyview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.ewu.core.widget.PtrFrameLayoutEx
+        android:id="@+id/goods_ptr_frame_ll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <ListView
+            android:scrollbars="none"
+            android:id="@+id/lv_order_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></ListView>
+    </com.ewu.core.widget.PtrFrameLayoutEx>
+
+</LinearLayout>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    <integer-array name="google_colors">
+        <item>@color/red</item>
+        <item>@color/blue</item>
+        <item>@color/yellow</item>
+        <item>@color/green</item>
+    </integer-array>
+
+    <string-array name="goods_category">
+        <item>热卖商品</item>
+        <item>促销商品</item>
+        <item>推荐商品</item>
+        <item>广告商品</item>
+    </string-array>
+
+    <string-array name="order_type">
+        <item>全部订单</item>
+        <item>等待确认</item>
+        <item>等待拣货</item>
+        <item>正在拣货</item>
+        <item>拣货完成</item>
+        <item>打印完成</item>
+        <item>正在配送中</item>
+        <item>交易完成</item>
+        <item>客户交易取消</item>
+        <item>客服交易关闭</item>
+    </string-array>
+    <string-array name="select_item">
+        <item>默认排序</item>
+        <item>按类目排序</item>
+        <item>清空购物车</item>
+    </string-array>
+    <string-array name="select_time">
+        <item>全部消息</item>
+        <item>最近一周</item>
+        <item>最近一个月</item>
+        <item>最近三个月</item>
+        <item>最近半年</item>
+    </string-array>
+
+    <string-array name="select_points_type">
+        <item>全部积分</item>
+        <item>订货积分</item>
+        <item>增值积分</item>
+        <item>退货积分</item>
+        <item>其他积分</item>
+    </string-array>
+
+    <string-array name="run_environments">
+        <item>线上环境[%1$s]</item>
+        <item>测试环境[%1$s]</item>
+        <item>预发布环境[%1$s]</item>
+        <!--<item>迁移环境[%1$s]</item>
+        <item>集成开发环境[%1$s]</item>
+        <item>TF环境[%1$s]</item>
+        <item>DL环境[%1$s]</item>-->
+    </string-array>
+
+    <string-array name="selector_back_reason">
+        <item>商品临期</item>
+        <item>商品破损</item>
+        <item>到货差异</item>
+        <item>质量问题</item>
+        <item>其他原因</item>
+    </string-array>
+
+    <string-array name="selector_pick_type">
+        <item>拍照</item>
+        <item>从相册中选择</item>
+    </string-array>
+
+</resources>

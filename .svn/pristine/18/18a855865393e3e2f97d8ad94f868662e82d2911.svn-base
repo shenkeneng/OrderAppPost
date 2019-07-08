@@ -1,0 +1,476 @@
+package com.frxs.order;
+
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.BottomSheetDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ListView;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+import com.ewu.core.utils.DateUtil;
+import com.ewu.core.utils.DisplayUtil;
+import com.ewu.core.utils.MathUtils;
+import com.ewu.core.utils.ToastUtils;
+import com.ewu.core.widget.EmptyView;
+import com.ewu.core.widget.MaterialDialog;
+import com.ewu.core.widget.PtrFrameLayoutEx;
+import com.frxs.order.application.FrxsApplication;
+import com.frxs.order.comms.Config;
+import com.frxs.order.model.BillDetails;
+import com.frxs.order.model.DataSynEvent;
+import com.frxs.order.model.ShopBillNoPayOrderList;
+import com.frxs.order.model.ShopInfo;
+import com.frxs.order.rest.model.AjaxParams;
+import com.frxs.order.rest.model.ApiResponse;
+import com.frxs.order.rest.service.SimpleCallback;
+import com.pacific.adapter.Adapter;
+import com.pacific.adapter.AdapterHelper;
+import com.pacific.adapter.RecyclerAdapter;
+import com.pacific.adapter.RecyclerAdapterHelper;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import in.srain.cube.views.ptr.PtrDefaultHandler;
+import in.srain.cube.views.ptr.PtrFrameLayout;
+import in.srain.cube.views.ptr.PtrHandler;
+import retrofit2.Call;
+
+/**
+ * Created by Chentie on 2017/7/10.
+ */
+
+public class ShopBillActivity extends MaterialStyleActivity {
+    private ListView lvAccountBillList;
+
+    private TextView tvTitle;
+
+    private EmptyView emptyView;
+
+    private Adapter<ShopBillNoPayOrderList.ItemListBean> accountAdapter;
+
+    private int mPageIndex = 1;
+
+    private final int mPageSize = 15;
+
+    private PtrFrameLayoutEx mPtrFrameLayoutEx;
+
+    private BottomSheetDialog dialog;// 未支付弹窗
+
+    private TextView tvBillPay;//去付款按钮
+
+    private TextView billInfoTv;//收付款说明
+
+    private TextView billAmtTv;//收付款金额
+
+    private boolean isShopUnCofirmed = false;//门店账单是否未确认  true=有未确认  false=没有待确认
+
+    @Override
+    public int getPtrFrameLayoutId() {
+        return R.id.goods_ptr_frame_ll;
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_shop_bill;
+    }
+
+    @Override
+    protected void initViews() {
+        super.initViews();
+        lvAccountBillList = (ListView) findViewById(R.id.lv_accountbill_list);
+        tvTitle = (TextView) findViewById(R.id.title_tv);
+        emptyView = (EmptyView) findViewById(R.id.emptyview);
+        mPtrFrameLayoutEx = (PtrFrameLayoutEx) mPtrFrameLayout;
+        billAmtTv = (TextView) findViewById(R.id.tv_bill_amt);
+        billInfoTv = (TextView) findViewById(R.id.tv_bill_info);
+        tvBillPay = (TextView) findViewById(R.id.tv_bill_pay);
+    }
+
+    @Override
+    protected void initData() {
+        tvTitle.setText("门店账单");
+        accountAdapter = new Adapter<ShopBillNoPayOrderList.ItemListBean>(this, R.layout.item_shop_bill) {
+            @Override
+            protected void convert(AdapterHelper helper, final ShopBillNoPayOrderList.ItemListBean item) {
+                helper.setText(R.id.tv_order_id, item.getRef_BillNO());//订单ID
+                helper.setText(R.id.tv_order_type, (item.getRef_BillType() == 0) ? R.string.bill_type_0 : R.string.bill_type_1);// 订单类型
+                helper.setVisible(R.id.tv_look_info, (item.getRef_BillType() == 0) ? View.VISIBLE : View.INVISIBLE);// 查看详情按钮
+                helper.setText(R.id.tv_order_money, MathUtils.twolittercountString(item.getAmt()));// 账单金额
+                helper.setText(R.id.tv_balance_amt, "余额：" + MathUtils.twolittercountString(item.getAccountAmt()));// 用户余额
+                Date beginTime = DateUtil.string2Date(item.getCreateTime(), "yyyy-MM-dd HH:mm");
+                String time = DateUtil.format(beginTime, "yyyy/MM/dd HH:mm");
+                helper.setText(R.id.tv_order_time, time);
+
+                // 查看门店账单详情
+                helper.setOnClickListener(R.id.select_order_msg, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (item.getRef_BillType() == 0) {// 当前订单为结算单时才能查看账单详情
+                            Intent intent = new Intent(ShopBillActivity.this, AccountBillDetailsActivity.class);
+                            intent.putExtra("SETTLEID", item.getRef_BillNO());
+                            startActivity(intent);
+                        }
+                    }
+                });
+            }
+        };
+        lvAccountBillList.setAdapter(accountAdapter);
+        reqSaleSettleList();
+    }
+
+    @Override
+    protected void initEvent() {
+        mPtrFrameLayout.setPinContent(true);
+        mPtrFrameLayout.setPtrHandler(new PtrHandler() {
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                boolean iReturn = PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
+                return iReturn;
+            }
+
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                mPageIndex = 1;
+                reqSaleSettleList();
+            }
+        });
+
+        mPtrFrameLayoutEx.setOnLoadListener(new PtrFrameLayoutEx.OnLoadListener() {
+            @Override
+            public void onLoad() {
+                mPageIndex += 1;
+                reqSaleSettleList();
+            }
+        });
+
+        tvBillPay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isShopUnCofirmed) {
+                    requestOrderConfirmed();
+                } else {
+                    requestOrderPay();
+                }
+            }
+        });
+    }
+
+    /**
+     * 微信支付
+     * - 失败弹出提示对话框
+     * - 成功刷新账单数据
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onEventMainThread(DataSynEvent event) {
+        if (null != event.getResp()) {
+            if (0 != event.getResp().errCode) {
+                final MaterialDialog materialDialog = new MaterialDialog(ShopBillActivity.this);
+                View view = LayoutInflater.from(ShopBillActivity.this).inflate(R.layout.dialog_warn_wx, null);
+                materialDialog.setView(view);
+                view.findViewById(R.id.tv_finish).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        materialDialog.dismiss();
+                    }
+                });
+                materialDialog.show();
+            } else {
+                // 支付成功跳转支付成功页面
+                Intent intent = new Intent(this, PaySuccessActivity.class);
+                startActivity(intent);
+            }
+        }
+    }
+
+    /**
+     * 请求账单数据
+     */
+    private void reqSaleSettleList() {
+        showProgressDialog();
+        ShopInfo info = FrxsApplication.getInstance().getmCurrentShopInfo();
+        AjaxParams params = new AjaxParams();
+        params.put("ShopID", String.valueOf(info.getShopID()));
+        params.put("WID", String.valueOf(info.getWID()));
+        params.put("PageIndex", mPageIndex);
+        params.put("PageSize", mPageSize);
+        getService().GetShopBillList(params.getUrlParams()).enqueue(new SimpleCallback<ApiResponse<ShopBillNoPayOrderList>>() {
+
+            @Override
+            public void onResponse(ApiResponse<ShopBillNoPayOrderList> result, int code, String msg) {
+                refreshComplete();
+                dismissProgressDialog();
+                if (result != null) {
+                    if (result.getFlag().endsWith("0")) {
+                        ShopBillNoPayOrderList shopBill = result.getData();
+                        if (shopBill != null) {
+                            //判断去付款按钮是否可用
+                            billAmtTv.setText(MathUtils.twolittercountString(Math.abs(shopBill.getBalanceAmt())));
+                            if (shopBill.isHasUnPaidOnlineBill() && shopBill.getShopUnConfirmed() <= 0){
+                                isShopUnCofirmed = false;
+                                tvBillPay.setText("去付款");
+                                tvBillPay.setVisibility(View.VISIBLE);
+                            } else if (shopBill.getShopUnConfirmed() > 0){
+                                isShopUnCofirmed = true;
+                                tvBillPay.setText("确认账单");
+                                tvBillPay.setVisibility(View.VISIBLE);
+                            } else {
+                                isShopUnCofirmed = false;
+                                tvBillPay.setVisibility(View.INVISIBLE);
+                            }
+                            //判断显示应收还是应付金额
+                            if (shopBill.getBalanceAmt() >= 0){
+                                billInfoTv.setText(R.string.bill_payamt);
+                            } else {
+                                billInfoTv.setText(R.string.bill_gathering);
+                            }
+                            List<ShopBillNoPayOrderList.ItemListBean> itemList = shopBill.getItemList();
+                            if (itemList != null && itemList.size() > 0) {
+                                emptyView.setVisibility(View.GONE);
+                                if (mPageIndex == 1) {
+                                    accountAdapter.replaceAll(itemList);
+                                } else {
+                                    accountAdapter.addAll(itemList);
+                                }
+
+                                accountAdapter.notifyDataSetChanged();
+
+                                boolean hasMoreItems = (accountAdapter.getCount() < shopBill.getTotalRecords());
+                                mPtrFrameLayoutEx.onFinishLoading(hasMoreItems);
+                            } else {
+                                emptyView.setNoDataView(R.mipmap.icon_noservice, "亲，没有账单哦~");
+                            }
+                        }
+                    } else {
+                        ToastUtils.show(ShopBillActivity.this, result.getInfo());
+                        emptyView.setNoDataView(R.mipmap.icon_noservice, "亲，没有账单哦~");
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<ShopBillNoPayOrderList>> call, Throwable t) {
+                super.onFailure(call, t);
+                refreshComplete();
+                dismissProgressDialog();
+                emptyView.setNoDataView(R.mipmap.icon_noservice, "亲，没有账单哦~");
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // 移除粘性事件
+        EventBus.getDefault().removeAllStickyEvents();
+        EventBus.getDefault().unregister(this);
+    }
+
+    /**
+     * 请求门店账单数据
+     */
+    private void requestOrderPay() {
+        showProgressDialog();
+        AjaxParams params = new AjaxParams();
+        params.put("WID", String.valueOf(getWID()));
+        params.put("ShopID", String.valueOf(getShopID()));
+        getService().GetNoPayOrderList(params.getUrlParams()).enqueue(new SimpleCallback<ApiResponse<ShopBillNoPayOrderList>>() {
+
+            @Override
+            public void onResponse(ApiResponse<ShopBillNoPayOrderList> result, int code, String msg) {
+                dismissProgressDialog();
+                if (result.getFlag().equals("0")) {
+                    ShopBillNoPayOrderList noPayQuery = result.getData();
+                    if (null != noPayQuery) {
+                        List<ShopBillNoPayOrderList.ItemListBean> settleList = noPayQuery.getItemList();
+                        /**
+                         * 在线支付金额是否大于0
+                         */
+                        if (noPayQuery.getSubAmt() > 0) {
+                            showNeedShopBillDialog(noPayQuery.getSubAmt(), noPayQuery.getBalanceAmt(), settleList);
+                        } else {
+                            ToastUtils.show(ShopBillActivity.this, R.string.str_dialog_payamt);
+                        }
+                    } else {
+                        ToastUtils.show(ShopBillActivity.this, "获取支付信息失败");
+                    }
+                } else {
+                    ToastUtils.show(ShopBillActivity.this, result.getInfo());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<ShopBillNoPayOrderList>> call, Throwable t) {
+                super.onFailure(call, t);
+                dismissProgressDialog();
+            }
+        });
+    }
+
+    /**
+     * 门店账单确认
+     */
+    private void requestOrderConfirmed() {
+        showProgressDialog();
+        AjaxParams params = new AjaxParams();
+        params.put("WID", String.valueOf(getWID()));
+        params.put("ShopID", String.valueOf(getShopID()));
+        getService().ShopConfirm(params.getUrlParams()).enqueue(new SimpleCallback<ApiResponse<Integer>>() {
+
+            @Override
+            public void onResponse(ApiResponse<Integer> result, int code, String msg) {
+                dismissProgressDialog();
+                if (result.getFlag().equals("0")) {
+                    reqSaleSettleList();
+                } else {
+                    ToastUtils.show(ShopBillActivity.this, result.getInfo());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<Integer>> call, Throwable t) {
+                super.onFailure(call, t);
+                dismissProgressDialog();
+            }
+        });
+    }
+
+    /**
+     * 弹出需要支付的门店账单
+     *
+     * @param settleAmt
+     */
+    private void showNeedShopBillDialog(final double settleAmt, double BalanceAmt, List<ShopBillNoPayOrderList.ItemListBean> settleList) {
+        if (dialog == null) {
+            dialog = new BottomSheetDialog(ShopBillActivity.this);
+        }
+        final List<ShopBillNoPayOrderList.ItemListBean> payOrderList = new ArrayList<ShopBillNoPayOrderList.ItemListBean>();// 存储当前选中订单集合
+        View view = LayoutInflater.from(ShopBillActivity.this).inflate(R.layout.dialog_shop_pay, null);
+        final RadioGroup rgPaySelector = (RadioGroup) view.findViewById(R.id.rg_pay_selector);
+        final TextView tvOrderAmt = (TextView) view.findViewById(R.id.tv_order_amt);
+        final TextView tvPayBillAmt = (TextView) view.findViewById(R.id.tv_bill_amt);
+        view.findViewById(R.id.content_tv).setVisibility(View.GONE);
+        final TextView orderPayTv = (TextView) view.findViewById(R.id.order_pay_tv);
+        RecyclerView activitiesLv = (RecyclerView) view.findViewById(R.id.order_listview);
+        activitiesLv.setLayoutManager(new LinearLayoutManager(this));
+        tvOrderAmt.setText(MathUtils.twolittercountString(settleAmt));
+        tvPayBillAmt.setText(String.format(getString(R.string.dialog_payamt), MathUtils.twolittercountString(BalanceAmt)));
+
+        /**
+         * 初始化并保存支付方式
+         */
+        initAndSavePayType(view, rgPaySelector);
+
+        /**
+         * 底部对话框点击消失交互
+         */
+        final TextView tvFinish = (TextView) view.findViewById(R.id.img_close_pay);
+        tvFinish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Drawable drawable = getResources().getDrawable(R.mipmap.detail_unfold);
+                tvFinish.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
+                dialog.dismiss();
+            }
+        });
+
+        /**
+         * 设置订单条目
+         */
+
+        RecyclerAdapter<ShopBillNoPayOrderList.ItemListBean> adapter = new RecyclerAdapter<ShopBillNoPayOrderList.ItemListBean>(ShopBillActivity.this, R.layout.item_order_price) {
+            @Override
+            protected void convert(final RecyclerAdapterHelper helper, final ShopBillNoPayOrderList.ItemListBean item) {
+                final TextView tvOrderName = helper.getView(R.id.tv_order_name);
+                tvOrderName.setSelected(payOrderList.contains(item) ? true : false);
+                helper.setText(R.id.tv_order_name, item.getRef_BillType() == 0 ? R.string.bill_type_0 : R.string.bill_type_1);// 单据类型
+                helper.setText(R.id.tv_order_num, " : " + item.getRef_BillNO());// 单据编号
+                helper.setText(R.id.tv_order_price, MathUtils.twolittercountString(item.getAmt()));// 单据金额
+                helper.setOnClickListener(R.id.ll_pay_order, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (payOrderList.contains(item)) {
+                            payOrderList.remove(item);
+                            tvOrderName.setSelected(false);
+                        } else {
+                            payOrderList.add(item);
+                            tvOrderName.setSelected(true);
+                        }
+
+                        double payAmt = 0.0;
+                        for (ShopBillNoPayOrderList.ItemListBean order : payOrderList) {
+                            payAmt += order.getAmt();
+                        }
+                        tvOrderAmt.setText(MathUtils.twolittercountString(payAmt));
+                        orderPayTv.setSelected(payAmt <= 0 ? true : false);
+                    }
+                });
+            }
+        };
+
+        /**
+         * 查看微信限额说明
+         */
+        view.findViewById(R.id.tv_wx_explain).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ShopBillActivity.this, CommonWebViewActivity.class);
+                String baseUrl = Config.getBaseUrl();
+                intent.putExtra("REQUSTPOINT", baseUrl + "h5/limitWX.html");
+                intent.putExtra("H5TITLE", "微信支付限额说明");
+                startActivity(intent);
+            }
+        });
+
+        /**
+         * 查询当前订单明细并选择支付方式
+         */
+        view.findViewById(R.id.order_pay_tv).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                double payOrderAmt = 0.0;// 当前选中订单的合计金额
+                List<Long> CusVoucherIDList = new ArrayList<Long>();// 当前选中的订单ID
+                for (ShopBillNoPayOrderList.ItemListBean order : payOrderList) {
+                    CusVoucherIDList.add(order.getID());
+                    payOrderAmt += order.getAmt();
+                }
+                if (payOrderAmt > 0) {
+                    requestPrepayInfo(CusVoucherIDList, FrxsApplication.getInstance().getPayType());
+                    dialog.dismiss();
+                } else {
+                    ToastUtils.show(ShopBillActivity.this, R.string.str_dialog_payamt);
+                }
+            }
+        });
+
+        payOrderList.addAll(settleList);
+        adapter.replaceAll(settleList);
+        activitiesLv.setAdapter(adapter);
+        dialog.hide();
+        dialog.setContentView(view);
+        View parent = (View) view.getParent();
+        BottomSheetBehavior behavior = BottomSheetBehavior.from(parent);
+        behavior.setPeekHeight(DisplayUtil.getScreenHeight(ShopBillActivity.this) / 1);
+        dialog.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 338) { // 支付后返回门店账单页面 刷新数据
+            reqSaleSettleList();
+        }
+    }
+}

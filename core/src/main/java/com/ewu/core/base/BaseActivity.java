@@ -1,0 +1,58 @@
+package com.ewu.core.base;
+
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
+import android.view.View;
+import android.view.Window;
+
+import com.ewu.core.widget.MyProgressDialog;
+
+/**
+ * Created by ewu on 2016/2/18.
+ */
+public abstract class BaseActivity extends FragmentActivity implements View.OnClickListener{
+
+    private MyProgressDialog progressDialog;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        setContentView(getLayoutId());
+
+        progressDialog = new MyProgressDialog(this);
+        progressDialog.setCancelable(false); //设置等待按钮不能手动取消
+
+        initViews();
+        initEvent();
+        initData();
+    }
+
+    protected abstract int getLayoutId();
+    protected abstract void initViews();
+    protected abstract void initEvent();
+    protected abstract void initData();
+
+
+    @Override
+    public void onClick(View view) {
+
+    }
+
+    public boolean isShowingProgressDialog() {
+        return progressDialog.isShowing();
+    }
+
+    public void showProgressDialog() {
+        if (!progressDialog.isShowing()) {
+            progressDialog.showProgress();
+        }
+    }
+
+    public void dismissProgressDialog() {
+        progressDialog.dismissProgress();
+    }
+}

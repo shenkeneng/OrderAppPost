@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/ActionBarStyle"
+        android:background="@color/frxs_red" >
+
+        <include layout="@layout/view_title_red" />
+
+    </android.support.v7.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/total_shops_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/common_margin"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:text="@string/total_biz_circle_shops"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/divider_color" />
+
+    <ListView
+        android:id="@+id/attached_shop_lv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/common_margin"
+        android:layout_marginRight="@dimen/common_margin"
+        android:scrollbars="none"
+        android:divider="@color/frxs_gray_dark"
+        android:dividerHeight="0.5dp"/>
+
+</LinearLayout>

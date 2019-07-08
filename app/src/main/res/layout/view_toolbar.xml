@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <ImageView
+        android:id="@+id/left_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingTop="@dimen/common_padding"
+        android:paddingBottom="@dimen/common_padding"
+        android:paddingRight="@dimen/common_padding"
+        android:layout_gravity="center_vertical"
+        android:clickable="true"
+        android:onClick="onBack"
+        android:background="#00ff0000"
+        android:src="@drawable/selector_back"/>
+
+    <TextView
+        android:id="@+id/title_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="@dimen/size_title"
+        android:textColor="@color/white"
+        android:text="title"/>
+
+    <ImageView
+        android:id="@+id/right_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="20dp"
+        android:paddingTop="@dimen/common_padding"
+        android:paddingBottom="@dimen/common_padding"
+        android:paddingLeft="@dimen/common_padding"
+        android:layout_gravity="center_vertical|right"
+        android:clickable="true"
+        android:onClick="onBack"
+        android:background="#00ff0000"
+        android:src="@mipmap/remark_action"
+        android:visibility="gone"/>
+
+</merge>

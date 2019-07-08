@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_goods_info"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="@dimen/common_padding">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_goods_gift"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/shape_button_red"
+            android:padding="2dp"
+            android:text="赠品"
+            android:textColor="@color/frxs_red" />
+
+        <TextView
+            android:id="@+id/tv_goods_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
+            android:text="商品标题"
+            android:textColor="@color/frxs_black_dark"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_goods_subtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="商品副标题"
+        android:textColor="#fe8823" />
+
+    <TextView
+        android:id="@+id/tv_tips_preqty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_goods_describe"
+        android:layout_gravity="left"
+        android:background="@drawable/shape_button_red"
+        android:padding="2dp"
+        android:text="min起订量max"
+        android:textColor="@color/frxs_red"
+        android:textSize="12sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_goods_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="￥102.00/件"
+                android:textColor="@color/frxs_red"
+                android:textSize="16sp" />
+
+
+            <TextView
+                android:id="@+id/tv_goods_integral"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/shape_red_rectangle_border"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:text="10积分"
+                android:textColor="@color/frxs_red"
+                android:textSize="12sp" />
+
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <RelativeLayout
+                android:id="@+id/rl_goods_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingRight="@dimen/common_padding">
+
+                <com.frxs.order.widget.CountEditText
+                    android:id="@+id/count_edit_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true" />
+
+                <com.ewu.core.widget.BadgeView
+                    android:id="@+id/tv_goods_buy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="right"
+                    android:background="@mipmap/add_cart_circle_btn"
+                    android:gravity="top|center"
+                    android:paddingBottom="4dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="4dp" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_goods_gift_count"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:gravity="bottom|right"
+                android:text="x 1"
+                android:textColor="@color/frxs_red"
+                android:textSize="17sp" />
+
+        </FrameLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="multiple_image_select_primaryDark">#ff564c</color>
+    <color name="multiple_image_select_primary">#ff736b</color>
+    <color name="multiple_image_select_accent">#fd3b30</color>
+</resources>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/common_padding"
+        android:paddingRight="@dimen/common_padding"
+        android:paddingLeft="@dimen/common_padding">
+
+        <com.frxs.order.widget.ClearEditText
+            android:id="@+id/et_search_order"
+            android:layout_width="0dp"
+            android:layout_height="46dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="@dimen/common_margin"
+            android:background="@drawable/shape_edit"
+            android:drawableLeft="@mipmap/icon_search"
+            android:drawablePadding="5dp"
+            android:hint="@string/hint_search"
+            android:imeOptions="actionSearch"
+            android:singleLine="true"
+            android:textColorHint="@color/color_hint"
+            android:textSize="@dimen/hint_search" />
+
+        <TextView
+            android:id="@+id/search_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/common_margin"
+            android:background="@drawable/shape_button_red"
+            android:text="@string/search_action"
+            android:textSize="@dimen/hint_search"/>
+
+        <TextView
+            android:id="@+id/filte_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/common_margin"
+            android:background="@drawable/shape_button_red"
+            android:text="@string/filte_action"
+            android:textSize="@dimen/hint_search"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/search_prompt_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/common_padding"
+        android:paddingBottom="@dimen/common_padding"/>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="@dimen/common_padding"
+        android:layout_marginRight="3dp"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/pre_sale_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</LinearLayout>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        style="@style/ActionBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/frxs_red">
+
+        <include layout="@layout/view_toolbar" />
+
+    </android.support.v7.widget.Toolbar>
+    <com.ewu.core.widget.EmptyView
+        android:id="@+id/emptyview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_item"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/common_padding">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_bill_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="其他应付合计： "
+                    android:textColor="@color/frxs_black_dark"
+                    android:textSize="@dimen/size_goods_desc"/>
+
+                <TextView
+                    android:id="@+id/tv_bill_amt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="999.00"
+                    android:textColor="@color/frxs_red"
+                    android:textSize="@dimen/size_title"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_bill_pay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_bg_red"
+                android:paddingBottom="5dp"
+                android:paddingLeft="@dimen/hint_text"
+                android:paddingRight="@dimen/hint_text"
+                android:paddingTop="5dp"
+                android:text="去付款"
+                android:textColor="@color/white"
+                android:textSize="@dimen/size_goods_desc" />
+
+            <TextView
+                android:id="@+id/tv_bill_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_button_red"
+                android:paddingBottom="5dp"
+                android:paddingLeft="@dimen/hint_text"
+                android:paddingRight="@dimen/hint_text"
+                android:paddingTop="5dp"
+                android:text="确认账单"
+                android:textColor="@color/frxs_red"
+                android:textSize="@dimen/size_goods_desc"
+                android:layout_marginLeft="@dimen/common_margin"/>
+        </LinearLayout>
+
+    <com.ewu.core.widget.PtrFrameLayoutEx
+        android:id="@+id/goods_ptr_frame_ll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ListView
+            android:id="@+id/lv_accountbill_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:divider="@color/frxs_gray_light"
+            android:dividerHeight="10dp"
+            android:listSelector="@android:color/transparent"
+            android:scrollbars="none" />
+
+    </com.ewu.core.widget.PtrFrameLayoutEx>
+</LinearLayout>

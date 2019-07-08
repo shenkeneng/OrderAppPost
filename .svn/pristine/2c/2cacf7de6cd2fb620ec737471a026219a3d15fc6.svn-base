@@ -1,0 +1,257 @@
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="app_name">阿必达</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="just_now">刚刚</string>
+    <string name="minute_format">%1$d分钟前</string>
+    <string name="hour_format">%1$d小时前</string>
+    <string name="today_hour_minute_pattern">今天 HH:mm</string>
+    <string name="yesterday_hour_minute_pattern">昨天 HH:mm</string>
+    <string name="month_day_hour_minute_pattern">M月d日 HH:mm</string>
+    <string name="date_hour_minute_pattern">Y年M月d日 HH:mm</string>
+
+    <string name="hint_search">输入商品名称、条码、副标题</string>
+    <string name="tips_sign_out">再按一次退出程序</string>
+
+    <!--Common-->
+    <string name="points">%1$.2f积分</string>
+
+    <!-- H5-->
+    <string name="register">注册</string>
+    <string name="perfect_cert_info">完善证照信息</string>
+    <string name="perfect_account_info">完善账户信息</string>
+    <string name="shop_info">门店信息</string>
+    <string name="credentials_info">证照信息</string>
+    <string name="account_info">账户信息</string>
+
+    <!--LoginActivity-->
+    <string name="hint_login_account">请输入手机号码/门店账号</string>
+    <string name="hint_login_password">输入密码</string>
+    <string name="btn_login">登录</string>
+    <string name="tips_login_info">用户名或密码错误</string>
+    <string name="tips_null_account">您还没有填写账号</string>
+    <string name="tips_null_password">您还没有填写密码</string>
+    <string name="tips_input_limit">密码只能由数字、字母组成</string>
+    <string name="title_login">订货平台APP登录</string>
+    <string name="str_dialog_title_head">请选择环境【当前是：</string>
+    <string name="str_dialog_title_foot">】</string>
+    <string name="str_freeze">"门店：%1$s已被冻结，不能下单。"</string>
+    <string name="str_psw">frxs@123</string>
+
+    <!--UpdatePswActivity-->
+    <string name="title_update_password">修改密码</string>
+    <string name="hint_password_old">请填写当前登录密码</string>
+    <string name="hint_password_new">限6-20位字符</string>
+    <string name="hint_password_new_sure">请再次输入密码</string>
+    <string name="btn_commit_psw">确认提交</string>
+    <string name="tips_not_null_pw_old">旧密码不能为空</string>
+    <string name="tips_not_null_pw_new">新密码不能为空</string>
+    <string name="tips_not_null_pw_new_sure">确认新密码不能为空</string>
+    <string name="tips_new_password_error">新密码确认错误</string>
+    <string name="tips_old_new_not_same">新密码不能和旧密码相同</string>
+    <string name="tips_update_success">密码修改成功</string>
+    <string name="title_update_mob">修改绑定手机</string>
+    <string name="hint_register_mob">注册手机</string>
+    <string name="tips_not_null_register_omb">注册手机号码不能为空</string>
+    <string name="hint_verify_code">请输入手机验证码</string>
+    <string name="hint_verify_code_new">请输入新手机短信验证码</string>
+    <string name="hint_mob_now">请输入新设置手机号码</string>
+    <string name="title_update_bank">修改银行卡</string>
+    <string name="hint_operator_name">请输入法定代表人或经营者姓名</string>
+    <string name="hint_bank_account">请输入法人姓名一致的银行卡账户</string>
+    <string name="hint_legal_person">请输入法定代表人或经营者姓名</string>
+    <string name="hint_bank_type">银行卡开户行</string>
+    <string name="hint_bank_card">银行卡号</string>
+    <string name="tips_not_null_mob">手机号不能为空</string>
+    <string name="tips_not_mob_error">请输入正确手机号</string>
+    <string name="tips_has_valid_code">验证码已发送成功，%1$s分钟内有效，请注意查收</string>
+    <string name="tips_send_code">发送验证码</string>
+    <string name="tips_modify_pas"><Data><![CDATA[ 温馨提示：下面所有部分都为<font color="#ff564c">必填项</font>]]> </Data></string>
+    <string name="dialog_success_psw">密码重置成功，请登录!</string>
+    <string name="dialog_success_mob">新手机号绑定成功!</string>
+    <string name="dialog_success_card">成功提交银行卡信息，请等待审核!</string>
+    <string name="tips_psw_again">两次密码输入不相同，请重新输入!</string>
+    <string name="tips_verify_error">原手机验证失败：验证码错误，请重新输入。若您需重新提交，请重新获取原手机和新手机的验证码。</string>
+    <string name="tips_mob_rpeat">新设手机号和现注册手机号不能相同</string>
+    <string name="tips_mob_null">门店暂未绑定手机号，请联系仓库客服!</string>
+    <string name="tips_context_error">企业法人与开户名不一致，请重新输入!</string>
+
+    <!-- UserPswActivity -->
+    <string name="tips_user">请您如实填写以下信息，我们的客服人员将会核实相关信息的真实性！如果您的信息审核未通过，将无法登陆平台订货，敬请谅解！</string>
+
+    <!--WaitingDeliveryFragment-->
+    <string name="title_waiting_delivery">等待配送</string>
+    <string name="order_total">总订单:%1$s</string>
+    <string name="order_waiting">等待配送:%1$s</string>
+    <string name="order_picking">正在拣货:%1$s</string>
+    <string name="order_waiting_count">等待配送的订单数：%1$s</string>
+    <string name="order_picking_count">正在拣货的订单数：%1$s</string>
+
+    <!--BeingDeliveryFragment-->
+    <string name="title_being_delivery">正在配送</string>
+    <string name="delivery_count">配送门店数：%1$s</string>
+
+    <!--MinFragment-->
+    <string name="title_mine">我的</string>
+    <string name="tv_login_out">退出用户</string>
+    <string name="tv_change_password">用户修改密码</string>
+    <string name="tv_version_id">版本号:V%1$s</string>
+    <string name="can_not_find_version_name">(暂无版本号)</string>
+
+    <!--OrderInformationFragment-->
+
+
+    <!-- HomeActivity -->
+    <string name="text_receive">接收拣货单</string>
+    <string name="text_update_pw">修改密码</string>
+    <string name="text_exit">退出当前账户</string>
+    <string name="str_notifi">有新拣货单</string>
+    <string name="str_notifi_msg">有新拣货单，请拣货!</string>
+    <string name="str_exit">退出</string>
+    <string name="text_submit">提交</string>
+    <string name="text_sum">合计：</string>
+    <string name="text_points">积分：</string>
+    <string name="text_amount">商品总额：¥ </string>
+    <string name="text_delete">删除</string>
+    <string name="text_remark">备注</string>
+    <string name="empty_cart_msg">哎呦，购物车空荡荡的~</string>
+    <string name="go_shopping">去逛逛</string>
+    <string name="hint_search_cart">搜索购物车商品</string>
+    <string name="title_cart">购物车</string>
+    <string name="str_dialog_pay">您还有账单未付款，请您及时付款！超过%1$s小时系统会自动冻结帐户，对您造成的不便，敬请详解！</string>
+    <string name="str_dialog_freeze">由于您在%1$s小时内没有付款，帐户已经被系统冻结，请先付款，再联系客服解冻帐号！</string>
+    <string name="str_dialog_payamt">支付金额需大于0才能完成支付</string>
+
+    <string name="point_detail">积分明细</string>
+
+    <!-- PointDetailActivity -->
+    <string name="point_income">积分收入</string>
+    <string name="point_exchange">兑换明细</string>
+
+    <!-- AlertDialog -->
+    <string name="str_dialog_title">温馨提示</string>
+    <string name="str_dialog_msg">确定退出吗？</string>
+    <string name="str_dialog_cancle">取消</string>
+    <string name="str_dialog_stockmsg">确定标记为缺货？标记后状态将不可修改</string>
+    <string name="dialog_confirm">确认</string>
+    <string name="dialog_cancel">取消</string>
+    <string name="dialog_confirm_submit">确认提交</string>
+    <string name="dialog_title_prompt">提示</string>
+
+    <!-- com.frxs.appframe.adapter.PrintOrderAdapter -->
+    <string name="str_stock_toast">缺货，不能打印！</string>
+    <string name="str_normal">正常 </string>
+    <string name="str_stock">缺货 </string>
+
+    <!-- 在线更新 -->
+    <string name="updade_content">最新版本：%1$s \n\n更新内容\n%2$s</string>
+    <string name="update_title">发现版本更新</string>
+    <string name="update_ok">立即更新</string>
+    <string name="update_cancel">稍后更新</string>
+
+
+    <!--GoodsDetailActivity-->
+    <string name="goods_detail_title">商品详情</string>
+    <string name="sold_out">已售完</string>
+    <string name="selected_num">已订数量：</string>
+    <string name="selected_sku">已选：</string>
+    <string name="suggested_sale_price">门店小单位建议零售价：</string>
+    <string name="customer_service">售后：</string>
+    <string name="product_unit">单位：</string>
+    <string name="product_packages">包装：</string>
+    <string name="product_code">编码：</string>
+    <string name="product_barcode">条码：</string>
+    <string name="add_2_cart">订</string>
+
+    <!-- ProductSkuActivity -->
+    <string name="confirm_action">确认</string>
+
+    <!--ProductSearchActivity-->
+    <string name="search_action">搜索</string>
+    <string name="search_history">搜索历史</string>
+    <string name="clear_history">清空搜索历史</string>
+
+    <string name="network_request_failed">网络请求失败，请重试</string>
+
+    <!-- StoreCartFragment -->
+    <string name="title_promotion">促销活动</string>
+    <string name="promotion_validity">有效期：</string>
+    <string name="promotion_rule">活动规则：</string>
+    <string name="more_promotion">查看更多促销活动</string>
+    <string name="all_goods">全部</string>
+
+    <!-- PromotionDetailActivity -->
+    <string name="activity_validity">%1$s至%2$s</string>
+    <string name="activity_group_name">%1$s组商品</string>
+    <string name="activity_gift_goup_name">赠送商品</string>
+    <string name="activity_match_goup_name">搭售商品</string>
+    <string name="activity_gift">赠品</string>
+    <string name="activity_reduce">搭售</string>
+    <string name="activity_promotion">促</string>
+
+    <!--PreSale-->
+    <string name="package_num">包装数：%1$.2f</string>
+    <string name="code_bar">条码：%1$s</string>
+    <string name="suggest_retail_price">建议零售价：￥%1$.2f/%2$s</string>
+    <string name="unit_price">￥%1$.2f/%2$s</string>
+    <string name="order_price">￥%1$.2f/%2$s x%3$.2f</string>
+    <string name="status_done">已处理</string>
+    <string name="status_pending">未处理</string>
+    <string name="filte_action">筛选</string>
+    <string name="search_result">您搜索“%1$s”，共%2$d条结果</string>
+    
+    <!-- PaySuccessActivity -->
+    <string name="pay_warm">安全提醒：阿必达不会以任何理由要求您提供银行卡信息或支付额外费用，请谨防钓鱼链接或诈骗电话！</string>
+
+    <!--AccountBillActivity-->
+    <string name="status_paid">已付款</string>
+    <string name="status_non_pay">未付款</string>
+    <string name="status_pay">去付款</string>
+    <!--微信支付-->
+    <string name="not_installed_wechat">您未安装微信</string>
+    <string name="errcode_success">发送成功</string>
+    <string name="errcode_cancel">发送取消</string>
+    <string name="errcode_deny">发送被拒绝</string>
+    <string name="errcode_unknown">发送返回</string>
+
+    <!-- OrderSubmitActivity -->
+    <string name="order_delivery_period">报单周期：</string>
+    <string name="order_delivery_desc">订单确认及到货时间说明：</string>
+    <string name="order_confirm_desc">您的订单确认时间是：</string>
+
+    <!-- MyBizCircleShopsActivity -->
+    <string name="attached_shops">商圈门店</string>
+    <string name="total_biz_circle_shops"><Data><![CDATA[ 您的商圈共有 <font color="#ff564c">%1$d家</font>附属门店：]]> </Data></string>
+    <string name="pre_good_tag"><Data><![CDATA[<font color="#ff564c">【预订】</font>]]> </Data></string>
+
+    <!-- OrdersFragment -->
+    <string name="order_manager">订单管理</string>
+    <string name="order_pre_goods">预订商品</string>
+
+    <!-- RegisterActivity -->
+    <string name="tips_null_mobile">手机号不能空</string>
+    <string name="tips_null_code">验证码不能空</string>
+    <string name="confirm_password">请确认密码</string>
+    <string name="input_mobile">请输入正确手机号码</string>
+    <string name="again_password">两次密码输入不相同，请重新输入</string>
+    <string name="input_limit_num">密码只能由6-20位数字、字母组成</string>
+
+    <!-- SalesBackActivity -->
+    <string name="sales_return_manage">退货单管理</string>
+    <string name="new_sales_return">新增退货申请</string>
+    <string name="hint_new_back">输入商品名称，商品条码，编码</string>
+    <string name="back_window_name">奖瓶奖盖奖券</string>
+
+    <!-- SalesReturnFragment -->
+    <string name="apply_order">退货申请单</string>
+    <string name="sales_return_order">退货单</string>
+    <string name="hasCameraPermission">阿必达需要相机权限</string>
+    
+    <!-- ShopBillActivity -->
+    <string name="order_state_change">当前门店账单状态已改变，请退出当前页面重新进入。</string>
+    <string name="bill_type_0">结算单</string>
+    <string name="bill_type_1">付款单</string>
+    <string name="bill_gathering">其他应收合计</string>
+    <string name="bill_payamt">其他应付合计</string>
+    <string name="dialog_payamt">（应付合计：%1$s）</string>
+</resources>

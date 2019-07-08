@@ -1,0 +1,524 @@
+package com.frxs.order.fragment;
+
+import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.ViewFlipper;
+import com.ewu.core.utils.DisplayUtil;
+import com.ewu.core.utils.ToastUtils;
+import com.ewu.core.widget.EmptyView;
+import com.ewu.core.widget.slidingtabs.SlidingTabLayout;
+import com.frxs.order.CaptureActivity;
+import com.frxs.order.FrxsActivity;
+import com.frxs.order.MessageDetailActivity;
+import com.frxs.order.MessageListActivity;
+import com.frxs.order.PreSaleActivity;
+import com.frxs.order.ProductSearchActivity;
+import com.frxs.order.R;
+import com.frxs.order.adapter.TabPagerAdapter;
+import com.frxs.order.application.FrxsApplication;
+import com.frxs.order.model.ColumnSwitchSet;
+import com.frxs.order.model.ShopInfo;
+import com.frxs.order.model.WAdvertisementGetListModelRespData;
+import com.frxs.order.model.WProductExt;
+import com.frxs.order.model.WarehouseMessage;
+import com.frxs.order.model.WarehouseMessageShopGetListRespData;
+import com.frxs.order.rest.model.AjaxParams;
+import com.frxs.order.rest.model.ApiResponse;
+import com.frxs.order.rest.service.SimpleCallback;
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+import in.srain.cube.views.ptr.PtrFrameLayout;
+import in.srain.cube.views.ptr.PtrHandler;
+import retrofit2.Call;
+
+/**
+ * 等待配送 by Tiepier
+ */
+public class HomeFragment extends MaterialStyleFragment implements SlidingTabLayout.TabAdapter {
+
+    private EmptyView emptyView;
+
+    private SlidingTabLayout homeTabLayout;
+
+    private ViewPager tabViewPager;
+
+    private TabPagerAdapter categoryFragPagerAdapter;
+
+    private TextView btnMessage;
+
+    private List<Fragment> mFraments = new ArrayList<Fragment>();
+
+    private ShopInfo mShopInfo;
+
+    private View preSaleEnterView;
+
+    private ViewFlipper mViewFlipper;
+
+    private LinearLayout llMessage;
+
+    private List<WAdvertisementGetListModelRespData> mAdertisementList = new ArrayList<WAdvertisementGetListModelRespData>();
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_home;
+    }
+
+    @Override
+    public int getPtrFrameLayoutId() {
+        return R.id.goods_ptr_frame_ll;
+    }
+
+    /**
+     * 保存退出时的当前数据
+     * @param outState
+     */
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (Build.VERSION.SDK_INT < 26) {
+            outState.putSerializable("product_list", (Serializable) this.mAdertisementList);
+        }
+
+    }
+
+    /**
+     * 获取退出时保存的数据
+     * @param savedInstanceState
+     */
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT < 26 && savedInstanceState != null) {
+            mAdertisementList = (List<WAdvertisementGetListModelRespData>) savedInstanceState.getSerializable("product_list");
+        }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            if (null != categoryFragPagerAdapter && null != categoryFragPagerAdapter.getCurrentFragment()) {
+                categoryFragPagerAdapter.getCurrentFragment().notifyDataSetChanged();
+            }
+            initPreSaleItem();
+        }
+    }
+
+    /**
+     * 初始化预售专场入口
+     */
+    private void initPreSaleItem() {
+        ColumnSwitchSet switchSet = FrxsApplication.getInstance().getColumnSwitchSet();
+        if (null != switchSet && switchSet.isDisplayPreScale()) {
+            preSaleEnterView.setVisibility(View.VISIBLE);
+        } else {
+            preSaleEnterView.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (Build.VERSION.SDK_INT >= 26) {
+            mAdertisementList.clear();
+            mFraments.clear();
+            System.gc();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (null != categoryFragPagerAdapter && mFraments.size() > 0) {
+            notifyDataSetChanged();
+        }else {
+            requestGetAdvertisementModelList();
+        }
+    }
+
+    @Override
+    protected void initViews(View view) {
+        super.initViews(view);
+        emptyView = (EmptyView) view.findViewById(R.id.emptyview);
+        preSaleEnterView = view.findViewById(R.id.pre_sale_enter_view);
+        preSaleEnterView.setOnClickListener(this);
+
+        homeTabLayout = (SlidingTabLayout) view.findViewById(R.id.home_tab_layout);
+        tabViewPager = (ViewPager) view.findViewById(R.id.tab_view_pager);
+
+        btnMessage = (TextView) view.findViewById(R.id.right_btn);
+        btnMessage.setOnClickListener(this);
+
+        mViewFlipper =(ViewFlipper) view.findViewById(R.id.viewFlipper);
+        llMessage = (LinearLayout) view.findViewById(R.id.ll_message);
+
+        view.findViewById(R.id.title_search).setOnClickListener(this);
+        view.findViewById(R.id.left_btn).setOnClickListener(this);
+    }
+
+    @Override
+    protected void initEvent() {
+        mPtrFrameLayout.setPinContent(true);
+        mPtrFrameLayout.disableWhenHorizontalMove(true);
+        mPtrFrameLayout.setPtrHandler(new PtrHandler() {
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+//                boolean iReturn = PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
+                boolean iReturn = categoryFragPagerAdapter.checkCanDoRefresh();
+                return iReturn;
+            }
+
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                refreshData();
+            }
+        });
+
+        homeTabLayout.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                categoryFragPagerAdapter.setmCurrentFragment(position);
+                notifyDataSetChanged();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+        mViewFlipper.setInAnimation(mActivity,R.anim.anim_in);
+        mViewFlipper.setOutAnimation(mActivity,R.anim.anim_out);
+        //设置5秒切换
+        mViewFlipper.setFlipInterval(5000);
+    }
+
+    private void notifyDataSetChanged() {
+        CategoryGoodsFragment currentFrg = categoryFragPagerAdapter.getCurrentFragment();
+        if (null != currentFrg) {
+            currentFrg.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    protected void initData() {
+        categoryFragPagerAdapter = new TabPagerAdapter(getChildFragmentManager(), mFraments);
+        tabViewPager.setOffscreenPageLimit(1);
+        tabViewPager.setAdapter(categoryFragPagerAdapter);
+        homeTabLayout.setCustomTabView(R.layout.view_sliding_tab_item, R.id.textview);
+        homeTabLayout.setDistributeEvenly(true);
+        homeTabLayout.setTabAdapter(this);
+        homeTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.frxs_red));
+        homeTabLayout.setViewPager(tabViewPager);
+
+        mShopInfo = FrxsApplication.getInstance().getmCurrentShopInfo();
+        if (null != mShopInfo) {
+            refreshData();
+        }
+    }
+
+    private void refreshData() {
+        requestColumnSwitchSet();
+        requestGetAdvertisementModelList();
+        reqIsNewMessage();
+        reqAllMessage();
+    }
+
+    public void syncData() {
+        requestColumnSwitchSet();
+    }
+
+    private void requestColumnSwitchSet() {
+        mActivity.showProgressDialog();
+        AjaxParams params = new AjaxParams();
+        params.put("WID", getWID());
+        params.put("shopID", getShopID());
+
+        getService().MyColumnDisplaySwitch(params.getUrlParams()).enqueue(new SimpleCallback<ApiResponse<ColumnSwitchSet>>() {
+            @Override
+            public void onResponse(ApiResponse<ColumnSwitchSet> result, int code, String msg) {
+                mActivity.dismissProgressDialog();
+                if (result.isSuccessful()) {
+                    ColumnSwitchSet columnSwitchSet = result.getData();
+                    if (null != columnSwitchSet) {
+                        initPreSaleItem();
+                        FrxsApplication.getInstance().setColumnSwitchSet(columnSwitchSet);
+                    }
+                } else {
+                    if (!TextUtils.isEmpty(result.getInfo())) {
+                        ToastUtils.show(mActivity, result.getInfo());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<ColumnSwitchSet>> call, Throwable t) {
+                super.onFailure(call, t);
+                mActivity.dismissProgressDialog();
+            }
+        });
+    }
+
+    /**
+     * 是否有新消息
+     */
+    private void reqIsNewMessage() {
+        AjaxParams params = new AjaxParams();
+        params.put("UserID", getUserID());
+        params.put("WID", getWID());
+        params.put("ShopID", getShopID());
+        getService().WarehouseMessageShopIsNew(params.getUrlParams()).enqueue(new SimpleCallback<ApiResponse<String>>() {
+            @Override
+            public void onResponse(ApiResponse<String> result, int code, String msg) {
+                if (result != null) {
+                    if (result.getFlag().equals("0")) {//不等于0为没有消息
+                        if (result.getData().equals("true")) {
+                            btnMessage.setBackgroundResource(R.mipmap.icon_msg_new);
+                        } else {
+                            btnMessage.setBackgroundResource(R.mipmap.icon_msg);
+                        }
+                    } else {
+                        btnMessage.setBackgroundResource(R.mipmap.icon_msg);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<String>> call, Throwable t) {
+                super.onFailure(call, t);
+
+            }
+        });
+    }
+
+    /**
+     * 请求所有消息
+     */
+    private void reqAllMessage() {
+        AjaxParams params = new AjaxParams();
+        params.put("UserID", getUserID());
+        params.put("WID", getWID());
+        params.put("SearchTime", 365);
+        params.put("ShopID", getShopID());
+        params.put("PageIndex", 1);
+        params.put("PageSize", 30);
+
+        getService().WarehouseMessageShopGetList(params.getUrlParams()).enqueue(new SimpleCallback<ApiResponse<WarehouseMessageShopGetListRespData>>() {
+            @Override
+            public void onResponse(ApiResponse<WarehouseMessageShopGetListRespData> result, int code, String msg) {
+                WarehouseMessageShopGetListRespData respData = result.getData();
+                if (null != respData) {
+                    List<WarehouseMessage> messageList = respData.getItemList();
+                    if (null != messageList && messageList.size() > 0) {
+                        llMessage.setVisibility(View.VISIBLE);
+                        for (int i = 0; i < messageList.size(); i++) {
+                            TextView mesTv = getMessageView(messageList.get(i));
+                            mViewFlipper.addView(mesTv);
+                        }
+                        mViewFlipper.startFlipping();
+                    } else {
+                        llMessage.setVisibility(View.GONE);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<WarehouseMessageShopGetListRespData>> call, Throwable t) {
+                super.onFailure(call, t);
+                mViewFlipper.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    private TextView getMessageView(final WarehouseMessage warehouseMessage) {
+        TextView tvMsg = new TextView(mActivity);
+        tvMsg.setLayoutParams(new PtrFrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        tvMsg.setTextColor(getResources().getColor(R.color.frxs_black_dark));
+        tvMsg.setText(warehouseMessage.getTitle());
+        tvMsg.setEllipsize(TextUtils.TruncateAt.END);
+        tvMsg.setSingleLine();
+        tvMsg.setGravity(Gravity.CENTER_VERTICAL);
+        tvMsg.setCompoundDrawablesWithIntrinsicBounds(R.drawable.shape_red_circle, 0, 0, 0);
+        tvMsg.setCompoundDrawablePadding(DisplayUtil.dip2px(mActivity, 5));
+        tvMsg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mActivity, MessageDetailActivity.class);
+                intent.putExtra("message", warehouseMessage);
+                mActivity.startActivity(intent);
+            }
+        });
+        return tvMsg;
+    }
+
+    private void updateAdvertisements() {
+        if (null != mAdertisementList || mAdertisementList.size() > 0) {
+            mFraments.clear();
+            mFraments = new ArrayList<Fragment>();
+
+            for (int i = 0; i < mAdertisementList.size(); i++) {
+                CategoryGoodsFragment cateGoodsListfragment = new CategoryGoodsFragment();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("product_list", (Serializable) mAdertisementList.get(i).getWproductslist());
+                bundle.putSerializable("index", i);
+                cateGoodsListfragment.setArguments(bundle);
+                mFraments.add(cateGoodsListfragment);
+            }
+
+            categoryFragPagerAdapter.setPagerItems(mFraments);
+            homeTabLayout.notifyDataSetChanged();
+            categoryFragPagerAdapter.notifyDataSetChanged();
+        }
+    }
+
+    public List<WProductExt> getFragmentProductList(int index) {
+        if (null != mAdertisementList && mAdertisementList.size() > index) {
+            return mAdertisementList.get(index).getWproductslist();
+        }
+
+        return null;
+    }
+
+    private void requestGetAdvertisementModelList() {
+        if (null == mShopInfo) {
+            return;
+        }
+        mActivity.showProgressDialog();
+        AjaxParams params = new AjaxParams();
+        params.put("ShopID", mShopInfo.getShopID());
+        params.put("WID", String.valueOf(mShopInfo.getWID()));
+        getService().WAdvertisementGetListModel(params.getUrlParams()).enqueue(new SimpleCallback<ApiResponse<List<WAdvertisementGetListModelRespData>>>() {
+            @Override
+            public void onResponse(ApiResponse<List<WAdvertisementGetListModelRespData>> result, int code, String msg) {
+                refreshComplete();
+
+                mAdertisementList.clear();
+                List<WAdvertisementGetListModelRespData> resultData = result.getData();
+                if (null != resultData) {
+                    mAdertisementList.addAll(resultData);
+
+                    if (resultData.size() > 0) {
+                        emptyView.setVisibility(View.GONE);
+                    } else {
+                        initEmptyView(EmptyView.MODE_NODATA);
+                    }
+                } else {
+                    initEmptyView(EmptyView.MODE_NODATA);
+                }
+
+                updateAdvertisements();
+                mActivity.dismissProgressDialog();
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<List<WAdvertisementGetListModelRespData>>> call, Throwable t) {
+                super.onFailure(call, t);
+                refreshComplete();
+                mActivity.dismissProgressDialog();
+
+                initEmptyView(EmptyView.MODE_ERROR);
+            }
+        });
+    }
+
+    private void initEmptyView(int mode) {
+        emptyView.setVisibility(View.VISIBLE);
+        emptyView.setMode(mode);
+        emptyView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mActivity.showProgressDialog();
+                requestGetAdvertisementModelList();
+            }
+        });
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.right_btn: {
+                Intent intent = new Intent(mActivity, MessageListActivity.class);
+                mActivity.startActivity(intent);
+                break;
+            }
+            case R.id.left_btn: {
+                Intent intent = new Intent(mActivity, CaptureActivity.class);
+                ((FrxsActivity)mActivity).hasCameraPermissions(intent, false);
+                //mActivity.startActivity(intent);
+                break;
+            }
+            case R.id.title_search: {
+                Intent intent = new Intent(mActivity, ProductSearchActivity.class);
+                mActivity.startActivity(intent);
+                break;
+            }
+            case R.id.pre_sale_enter_view: {
+                Intent intent = new Intent(mActivity, PreSaleActivity.class);
+                startActivity(intent);
+                break;
+            }
+            default:
+                break;
+        }
+
+    }
+
+
+    @Override
+    public CharSequence getTitle(int position) {
+        if (mAdertisementList.size() > position) {
+            return mAdertisementList.get(position).getWamodel().getAdvertisementName();
+        } else {
+            return "";
+        }
+    }
+
+    @Override
+    public int getImageId(int position) {
+        return R.mipmap.ic_launcher;
+    }
+
+    @Override
+    public int getTabWidth(int position) {
+        return 0;
+    }
+
+    @Override
+    public void loadBitmap(View imageView, int position, boolean isSelect) {
+
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        try {
+            Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
+            childFragmentManager.setAccessible(true);
+            childFragmentManager.set(this, null);
+
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+}

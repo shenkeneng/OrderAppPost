@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        style="@style/ActionBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/frxs_red"
+        android:id="@+id/toolbar2">
+
+        <include layout="@layout/view_title_red" />
+
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="@mipmap/icon_submit_bg"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/common_margin">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="商品数量："
+                android:textSize="@dimen/size_goods" />
+
+            <TextView
+                android:id="@+id/tv_good_count"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/common_padding"
+                android:gravity="right"
+                android:text="20"
+                android:textSize="@dimen/size_goods" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="退货积分："
+                android:textSize="@dimen/size_goods" />
+
+            <TextView
+                android:id="@+id/tv_good_point"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/common_padding"
+                android:gravity="right"
+                android:text="5600.00"
+                android:textSize="@dimen/size_goods" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="退货金额："
+                android:textSize="@dimen/size_goods" />
+
+            <TextView
+                android:id="@+id/tv_good_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/common_padding"
+                android:gravity="right"
+                android:text="￥5600.00"
+                android:textSize="@dimen/size_goods" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/hint_text"
+        android:gravity="center"
+        android:text="提示：实际退货金额以确认后的退货单金额为准！"
+        android:layout_margin="@dimen/common_margin"/>
+
+    <TextView
+        android:id="@+id/tv_order_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="提交退货申请单"
+        android:textColor="@color/selector_text_red"
+        android:background="@drawable/selector_btn_red"
+        android:layout_margin="@dimen/common_padding"
+        android:padding="15dp"
+        android:textSize="@dimen/size_goods_desc"
+        android:gravity="center"/>
+
+</LinearLayout>

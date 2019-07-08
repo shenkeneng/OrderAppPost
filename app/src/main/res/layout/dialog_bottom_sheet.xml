@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_promotion_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/frxs_red"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:padding="@dimen/common_padding"
+        android:drawableRight="@mipmap/detail_fold"
+        android:text="@string/title_promotion"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider_color"/>
+
+    <ListView
+        android:id="@+id/promotion_activity_lv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/common_padding"/>
+
+    <TextView
+        android:id="@+id/more_click_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="@dimen/common_margin"
+        android:background="@drawable/shape_button_red"
+        android:paddingLeft="@dimen/common_padding"
+        android:paddingRight="@dimen/common_padding"
+        android:text="@string/more_promotion"
+        android:textColor="@color/frxs_red" />
+
+</LinearLayout>

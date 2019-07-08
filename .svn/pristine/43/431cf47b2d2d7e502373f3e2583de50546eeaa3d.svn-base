@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        style="@style/ActionBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/frxs_red">
+
+        <include layout="@layout/view_title_red" />
+
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:id="@+id/sv_shop_info"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/common_margin"
+                android:layout_marginRight="@dimen/common_margin"
+                android:layout_marginTop="@dimen/common_margin"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="所属仓库：" />
+
+                <TextView
+                    android:id="@+id/tv_warehouse"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/common_padding"
+                    android:background="@drawable/shape_circle_rectangle"
+                    android:lines="1"
+                    android:padding="@dimen/common_padding"
+                    android:textColor="@color/frxs_black_light"
+                    android:textColorHint="@color/frxs_gray_dark"
+                    android:textSize="@dimen/hint_search" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/common_margin"
+                android:layout_marginRight="@dimen/common_margin"
+                android:layout_marginTop="@dimen/common_margin"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="门店类型：" />
+
+                <TextView
+                    android:id="@+id/tv_shop_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/common_padding"
+                    android:background="@drawable/shape_circle_rectangle"
+                    android:lines="1"
+                    android:padding="@dimen/common_padding"
+                    android:textColor="@color/frxs_black_light"
+                    android:textColorHint="@color/frxs_gray_dark"
+                    android:textSize="@dimen/hint_search" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/common_margin"
+                android:layout_marginRight="@dimen/common_margin"
+                android:layout_marginTop="@dimen/common_margin"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="门店名称：" />
+
+                <EditText
+                    android:id="@+id/tv_shop_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/common_padding"
+                    android:background="@drawable/shape_circle_rectangle"
+                    android:ellipsize="end"
+                    android:hint="请输入招牌名称"
+                    android:imeOptions="actionNext"
+                    android:lines="1"
+                    android:padding="@dimen/common_padding"
+                    android:textColor="@color/frxs_black_light"
+                    android:textColorHint="@color/frxs_gray_dark"
+                    android:textSize="@dimen/hint_search" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/common_margin"
+                android:layout_marginRight="@dimen/common_margin"
+                android:layout_marginTop="@dimen/common_margin"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="省市区：" />
+
+                <TextView
+                    android:id="@+id/tv_region"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/common_padding"
+                    android:background="@drawable/shape_circle_rectangle"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:padding="@dimen/common_padding"
+                    android:textColor="@color/frxs_black_light"
+                    android:textColorHint="@color/frxs_gray_dark"
+                    android:textSize="@dimen/hint_search" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/common_margin"
+                android:layout_marginRight="@dimen/common_margin"
+                android:layout_marginTop="@dimen/common_margin"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="详细地址：" />
+
+                <EditText
+                    android:id="@+id/tv_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/common_padding"
+                    android:background="@drawable/shape_circle_rectangle"
+                    android:ellipsize="end"
+                    android:hint="街道、小区、门牌号等"
+                    android:imeOptions="actionNext"
+                    android:lines="1"
+                    android:padding="@dimen/common_padding"
+                    android:textColor="@color/frxs_black_light"
+                    android:textColorHint="@color/frxs_gray_dark"
+                    android:textSize="@dimen/hint_search" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/common_margin"
+                android:layout_marginRight="@dimen/common_margin"
+                android:layout_marginTop="@dimen/common_margin"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="营业面积：" />
+
+                <EditText
+                    android:id="@+id/tv_shop_area"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/common_padding"
+                    android:background="@drawable/shape_circle_rectangle"
+                    android:ellipsize="end"
+                    android:imeOptions="actionNext"
+                    android:lines="1"
+                    android:padding="@dimen/common_padding"
+                    android:textColor="@color/frxs_black_light"
+                    android:textColorHint="@color/frxs_gray_dark"
+                    android:textSize="@dimen/hint_search" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/common_margin"
+                android:layout_marginRight="@dimen/common_margin"
+                android:layout_marginTop="@dimen/common_margin"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="配送时间：" />
+
+                <EditText
+                    android:id="@+id/tv_delivery_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/common_padding"
+                    android:background="@drawable/shape_circle_rectangle"
+                    android:ellipsize="end"
+                    android:imeOptions="actionNext"
+                    android:lines="1"
+                    android:padding="@dimen/common_padding"
+                    android:textColor="@color/frxs_black_light"
+                    android:textColorHint="@color/frxs_gray_dark"
+                    android:textSize="@dimen/hint_search" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/common_margin"
+                android:layout_marginRight="@dimen/common_margin"
+                android:layout_marginTop="@dimen/common_margin"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="联系人：" />
+
+                <EditText
+                    android:id="@+id/tv_linkman"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/common_padding"
+                    android:background="@drawable/shape_circle_rectangle"
+                    android:ellipsize="end"
+                    android:hint="请输入联系人姓名"
+                    android:imeOptions="actionNext"
+                    android:lines="1"
+                    android:padding="@dimen/common_padding"
+                    android:textColor="@color/frxs_black_light"
+                    android:textColorHint="@color/frxs_gray_dark"
+                    android:textSize="@dimen/hint_search" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/common_margin"
+                android:layout_marginRight="@dimen/common_margin"
+                android:layout_marginTop="@dimen/common_margin"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="门店座机：" />
+
+                <EditText
+                    android:id="@+id/tv_shop_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/common_padding"
+                    android:background="@drawable/shape_circle_rectangle"
+                    android:ellipsize="end"
+                    android:hint="例如：0730-84018888"
+                    android:imeOptions="actionNext"
+                    android:lines="1"
+                    android:padding="@dimen/common_padding"
+                    android:textColor="@color/frxs_black_light"
+                    android:textColorHint="@color/frxs_gray_dark"
+                    android:textSize="@dimen/hint_search" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/common_margin"
+                android:layout_marginRight="@dimen/common_margin"
+                android:layout_marginTop="@dimen/common_margin"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="电子邮箱：" />
+
+                <EditText
+                    android:id="@+id/tv_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/common_padding"
+                    android:background="@drawable/shape_circle_rectangle"
+                    android:ellipsize="end"
+                    android:imeOptions="actionNext"
+                    android:lines="1"
+                    android:padding="@dimen/common_padding"
+                    android:textColor="@color/frxs_black_light"
+                    android:textColorHint="@color/frxs_gray_dark"
+                    android:textSize="@dimen/hint_search" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/common_margin"
+                android:layout_marginRight="@dimen/common_margin"
+                android:layout_marginTop="@dimen/common_margin"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="片区经理：" />
+
+                <EditText
+                    android:id="@+id/tv_conductor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/common_padding"
+                    android:background="@drawable/shape_circle_rectangle"
+                    android:ellipsize="end"
+                    android:imeOptions="actionNext"
+                    android:lines="1"
+                    android:padding="@dimen/common_padding"
+                    android:textColor="@color/frxs_black_light"
+                    android:textColorHint="@color/frxs_gray_dark"
+                    android:textSize="@dimen/hint_search" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/common_margin"
+                android:layout_marginRight="@dimen/common_margin"
+                android:layout_marginTop="@dimen/common_margin"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="片区经理电话：" />
+
+                <EditText
+                    android:id="@+id/tv_conductor_mobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/common_padding"
+                    android:background="@drawable/shape_circle_rectangle"
+                    android:ellipsize="end"
+                    android:imeOptions="actionGo"
+                    android:lines="1"
+                    android:padding="@dimen/common_padding"
+                    android:textColor="@color/frxs_black_light"
+                    android:textColorHint="@color/frxs_gray_dark"
+                    android:textSize="@dimen/hint_search" />
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/cb_ABD_protcol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/common_margin"
+                android:layout_marginRight="@dimen/common_margin"
+                android:layout_marginTop="@dimen/common_margin"
+                android:text="我已阅读并同意《阿必达用户注册协议》"
+                android:textColor="@color/gray"
+                android:checked="true"/>
+
+            <com.ewu.core.widget.RippleView
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginBottom="@dimen/common_margin"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="30dp">
+
+                <Button
+                    android:id="@+id/info_next_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/red_round_corner_rectangle"
+                    android:padding="10dp"
+                    android:text="同意协议并注册"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp" />
+            </com.ewu.core.widget.RippleView>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

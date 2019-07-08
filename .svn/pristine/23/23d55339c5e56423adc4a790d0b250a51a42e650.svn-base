@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#99232323"
+    android:gravity="center"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="60dp"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:paddingTop="@dimen/common_margin"
+        android:paddingBottom="@dimen/common_margin"
+        android:background="@drawable/shape_item"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="商品数量:"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/size_goods_desc" />
+
+            <com.frxs.order.widget.CountEditText
+                android:id="@+id/count_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:text="退货原因:"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/size_goods_desc" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/common_padding"
+                android:layout_marginLeft="@dimen/common_padding"
+                android:background="@drawable/shape_item">
+
+                <Spinner
+                    android:id="@+id/sp_back_reason"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/selector_back_reason"
+                    android:spinnerMode="dialog"
+                    android:background="@color/white"/>
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_padding">
+
+            <TextView
+                android:id="@+id/btn_cancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:focusable="true"
+                android:gravity="center"
+                android:paddingTop="@dimen/common_margin"
+                android:paddingBottom="@dimen/common_margin"
+                android:layout_marginRight="@dimen/common_padding"
+                android:text="关闭"
+                android:textSize="16sp"
+                android:textColor="@color/selector_text_red"
+                android:background="@drawable/selector_button_red"/>
+
+            <TextView
+                android:id="@+id/btn_commit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:focusable="true"
+                android:gravity="center"
+                android:paddingTop="@dimen/common_margin"
+                android:paddingBottom="@dimen/common_margin"
+                android:layout_marginLeft="@dimen/common_padding"
+                android:text="确定"
+                android:textColor="@color/selector_text_red"
+                android:textSize="16sp"
+                android:background="@drawable/selector_button_red"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
